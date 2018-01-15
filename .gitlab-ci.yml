@@ -1,0 +1,57 @@
+stages:
+    - prepare
+    - building
+    - staging
+    - production
+
+Build Images:
+    stage: prepare
+    when: manual
+    image: docker:1.11
+    services:
+        - docker:dind
+    script:
+        - /bin/sh ./ci/build_images.sh
+
+Build CentOS 7:
+    stage: building
+    image: $CI_REGISTRY_IMAGE:build7
+    script:
+        - ./build.sh
+    artifacts:
+        paths:
+            - rpm
+    tags:
+        - docker
+
+Delivery CentOS 7 - Stage:
+    image: alpine
+    stage: staging
+    only:
+        - master
+    dependencies:
+        - Build CentOS 7
+    script:
+        - apk update
+        - apk add py2-pip py2-setuptools
+        - pip install awscli
+        - export AWS_ACCESS_KEY_ID=AKIAJWRCSKORQ4CZUJCQ
+        - export AWS_SECRET_ACCESS_KEY=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
+        - aws s3 cp --recursive --exclude "*" --include "*.rpm" rpm/7/ s3://azion-repo/azion/stage/infra/7/x86_64/
+
+Delivery CentOS 7 - Production:
+    image: alpine
+    stage: production
+    only:
+        - master
+    when: manual
+    dependencies:
+        - Build CentOS 7
+    script:
+        - apk update
+        - apk add py2-pip py2-setuptools
+        - pip install awscli
+        - export AWS_ACCESS_KEY_ID=AKIAJWRCSKORQ4CZUJCQ
+        - export AWS_SECRET_ACCESS_KEY=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
+        - aws s3 cp --recursive --exclude "*" --include "*.rpm" rpm/7/ s3://azion-repo/azion/infra/7/x86_64/
+
