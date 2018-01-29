@@ -5,7 +5,7 @@
 
 Name:           luajit
 Version:        %{luajit_version}.%{luajit_min_version}
-Release:        %{luajit_release}.1%{?dist}
+Release:        %{luajit_release}.2%{?dist}
 Summary:        Just-In-Time Compiler for Lua
 License:        MIT
 URL:            http://luajit.org/
@@ -69,8 +69,6 @@ find %{buildroot} -type f -name *.a -delete
 %postun -p /sbin/ldconfig
 
 %files
-%license COPYRIGHT
-%doc README
 %{_bindir}/%{name}
 %{_bindir}/%{name}-%{luajit_bin_version}
 %{_libdir}/libluajit*.so.*

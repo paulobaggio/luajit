@@ -1,0 +1,6 @@
+FROM centos:centos6
+MAINTAINER MD
+
+# Base environment
+ADD ci/prepare.sh prepare.sh
+RUN ./prepare.sh build
