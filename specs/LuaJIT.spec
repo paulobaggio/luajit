@@ -5,7 +5,7 @@
 
 Name:           luajit
 Version:        %{luajit_version}.%{luajit_min_version}
-Release:        %{luajit_release}.1%{?dist}
+Release:        %{luajit_release}.2%{?dist}
 Summary:        Just-In-Time Compiler for Lua
 License:        MIT
 URL:            http://luajit.org/
