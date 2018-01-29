@@ -69,8 +69,6 @@ find %{buildroot} -type f -name *.a -delete
 %postun -p /sbin/ldconfig
 
 %files
-%license COPYRIGHT
-%doc README
 %{_bindir}/%{name}
 %{_bindir}/%{name}-%{luajit_bin_version}
 %{_libdir}/libluajit*.so.*
