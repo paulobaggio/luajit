@@ -13,17 +13,6 @@ Build Images:
     script:
         - /bin/sh ./ci/build_images.sh
 
-Build CentOS 6:
-    stage: building
-    image: $CI_REGISTRY_IMAGE:build6
-    script:
-        - ./build.sh
-    artifacts:
-        paths:
-            - rpm
-    tags:
-        - docker
-
 Build CentOS 7:
     stage: building
     image: $CI_REGISTRY_IMAGE:build7
@@ -34,21 +23,6 @@ Build CentOS 7:
             - rpm
     tags:
         - docker
-
-Delivery CentOS 6 - Stage:
-    image: alpine
-    stage: staging
-    only:
-        - master
-    dependencies:
-        - Build CentOS 6
-    script:
-        - apk update
-        - apk add py2-pip py2-setuptools
-        - pip install awscli
-        - export AWS_ACCESS_KEY_ID=AKIAJWRCSKORQ4CZUJCQ
-        - export AWS_SECRET_ACCESS_KEY=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
-        - aws s3 cp --recursive --exclude "*" --include "*.rpm" rpm/6/ s3://azion-repo/azion/stage/infra/6/x86_64/
 
 Delivery CentOS 7 - Stage:
     image: alpine
@@ -64,22 +38,6 @@ Delivery CentOS 7 - Stage:
         - export AWS_ACCESS_KEY_ID=AKIAJWRCSKORQ4CZUJCQ
         - export AWS_SECRET_ACCESS_KEY=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
         - aws s3 cp --recursive --exclude "*" --include "*.rpm" rpm/7/ s3://azion-repo/azion/stage/infra/7/x86_64/
-
-Delivery CentOS 6 - Production:
-    image: alpine
-    stage: production
-    only:
-        - master
-    when: manual
-    dependencies:
-        - Build CentOS 6
-    script:
-        - apk update
-        - apk add py2-pip py2-setuptools
-        - pip install awscli
-        - export AWS_ACCESS_KEY_ID=AKIAJWRCSKORQ4CZUJCQ
-        - export AWS_SECRET_ACCESS_KEY=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
-        - aws s3 cp --recursive --exclude "*" --include "*.rpm" rpm/6/ s3://azion-repo/azion/infra/6/x86_64/
 
 Delivery CentOS 7 - Production:
     image: alpine

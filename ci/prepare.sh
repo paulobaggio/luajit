@@ -2,11 +2,6 @@
 
 VER=$(rpm -qf --queryformat '%{version}\n' /etc/system-release)
 case $VER in
-    "6")
-        yum install -y epel-release
-        yum update -y
-
-    ;;
     "7")
         yum install -y epel-release
         yum update -y
@@ -25,7 +20,7 @@ case $1 in
             git         \
             make        \
             rpm-build   \
-            spectool 
+            spectool
     ;;
     *)
         echo "What do you mean by $1? I understand only 'build'. Say 'build', please."
