@@ -12,7 +12,6 @@ rm -rf $RPM $RPMBUILD
 mkdir -p $RPM $RPMBUILD/{BUILD,RPMS,SRPMS,SPECS,SOURCES}
 
 cp -r $WORKDIR/specs/* $RPMBUILD/SPECS
-cp -r $WORKDIR/sources/* $RPMBUILD/SOURCES
 
 /usr/bin/spectool -g -S -C $RPMBUILD/SOURCES $RPMBUILD/SPECS/LuaJIT.spec
 
