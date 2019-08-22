@@ -1,26 +1,26 @@
 %define luajit_version 2.1
-%define luajit_min_version 0
-%define luajit_release beta3
-%define luajit_bin_version %{luajit_version}.%{luajit_min_version}-%{luajit_release}
+%define luajit_date_version 20190507
+%define luajit_bin_version 2.1.0-beta3
 
 Name:           luajit
-Version:        %{luajit_version}.%{luajit_min_version}
-Release:        %{luajit_release}.2%{?dist}
+Version:        %{luajit_version}.%{luajit_date_version}
+Release:        1%{?dist}
 Summary:        Just-In-Time Compiler for Lua
 License:        MIT
 URL:            http://luajit.org/
-Source0:        http://luajit.org/download/LuaJIT-%{luajit_bin_version}.tar.gz
+Source0:        https://github.com/openresty/luajit2/archive/v%{luajit_version}-%{luajit_date_version}.tar.gz#/luajit2-%{luajit_version}-%{luajit_date_version}.tar.gz
 
 %if 0%{?rhel}
 ExclusiveArch:  %{ix86} x86_64
 %endif
 
-Patch0:     create_symlink.patch
-
 %description
 LuaJIT implements the full set of language features defined by Lua 5.1.
 The virtual machine (VM) is API- and ABI-compatible to the standard
 Lua interpreter and can be deployed as a drop-in replacement.
+
+This package uses the OpenResty's fork of LuaJIT 2.
+https://github.com/openresty/luajit2
 
 %package devel
 Summary:        Development files for %{name}
@@ -30,8 +30,7 @@ Requires:       %{name}%{?_isa} = %{version}-%{release}
 This package contains development files for %{name}.
 
 %prep
-%setup -q -n LuaJIT-%{luajit_bin_version}
-%patch0 -p1
+%setup -q -n luajit2-%{luajit_version}-%{luajit_date_version}
 echo '#!/bin/sh' > ./configure
 chmod +x ./configure
 
@@ -69,6 +68,8 @@ find %{buildroot} -type f -name *.a -delete
 %postun -p /sbin/ldconfig
 
 %files
+%license COPYRIGHT
+%doc README
 %{_bindir}/%{name}
 %{_bindir}/%{name}-%{luajit_bin_version}
 %{_libdir}/libluajit*.so.*
@@ -82,5 +83,9 @@ find %{buildroot} -type f -name *.a -delete
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+
+* Mon Jul 22 2019 Paulo Eduardo Baggio <paulo.baggio@azion.com>
+  - 2.1-20190507 Change remote repository to openresty
+
 * Fri Jan 12 2018 Vinicius Mignot <vinicius.mignot@azion.com> - 2.1.0-beta3.1
 - Spec for LuaJIT 2.1 created.
