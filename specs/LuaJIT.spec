@@ -1,5 +1,5 @@
 %define luajit_version 2.1
-%define luajit_date_version 20190507
+%define luajit_date_version 20200102
 %define luajit_bin_version 2.1.0-beta3
 
 Name:           luajit
@@ -60,8 +60,6 @@ make amalg Q= E=@: PREFIX=%{_prefix} TARGET_STRIP=: \
 rm -rf _tmp_html ; mkdir _tmp_html
 cp -a doc _tmp_html/html
 
-# Remove static .a
-find %{buildroot} -type f -name *.a -delete
 
 %post -p /sbin/ldconfig
 
@@ -80,6 +78,7 @@ find %{buildroot} -type f -name *.a -delete
 %doc _tmp_html/html/
 %{_includedir}/luajit-2.1/
 %{_libdir}/libluajit*.so
+%{_libdir}/libluajit*.a
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
