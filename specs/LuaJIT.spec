@@ -48,6 +48,7 @@ sed -i -e '/install -m/s/-m/-p -m/' Makefile
 # NOTE: we use amalgamated build as per documentation suggestion doc/install.html
 make amalg Q= E=@: PREFIX=%{_prefix} TARGET_STRIP=: \
            CFLAGS="%{optflags}" \
+           XCFLAGS="-DLUAJIT_USE_PERFTOOLS" \
            %{?multilib_flag} \
            %{?_smp_mflags}
 
