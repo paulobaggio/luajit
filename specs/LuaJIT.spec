@@ -56,6 +56,7 @@ make amalg Q= E=@: PREFIX=%{_prefix} TARGET_STRIP=: \
 # PREREL= - disable -betaX suffix
 # INSTALL_TNAME - executable name
 %make_install PREFIX=%{_prefix} \
+              XCFLAGS="-DLUAJIT_USE_PERFTOOLS" \
               %{?multilib_flag}
 
 rm -rf _tmp_html ; mkdir _tmp_html
