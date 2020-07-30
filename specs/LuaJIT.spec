@@ -4,7 +4,7 @@
 
 Name:           luajit
 Version:        %{luajit_version}.%{luajit_date_version}
-Release:        1%{?dist}
+Release:        1_perf_sym_%{?dist}
 Summary:        Just-In-Time Compiler for Lua
 License:        MIT
 URL:            http://luajit.org/
@@ -83,6 +83,8 @@ cp -a doc _tmp_html/html
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Thu Jul 30 2020 Paulo Eduardo Baggio <paulo.baggio@azion.com>
+- Enable perf symbols 2.1.20200102-1_perf_sym
 
 * Mon Jul 22 2019 Paulo Eduardo Baggio <paulo.baggio@azion.com>
   - 2.1-20190507 Change remote repository to openresty
